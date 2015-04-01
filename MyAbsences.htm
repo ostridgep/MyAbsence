@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>MyAbsences - Home
+  </title>
+
+<script src="js/html5sql.js"></script>  
+<script src="js/MyDB.js"></script>
+
+<script type='text/javascript' src='js/jquery-1.11.1.min.js'></script>
+<script type='text/javascript' src='js/jquery.mobile-1.4.2.min.js'></script>
+<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+<script src="js/jquery.magnific-popup.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+<link rel="stylesheet" href="css/magnific-popup.css" />
+<link href="css/font-awesome.min.css" rel="stylesheet">
+  <style type='text/css'>
+ .block {
+    border: 1px solid grey;
+    width: 250px;
+    height:150px;
+    display: inline-block;
+    margin: 1em 1em 1em 1em;
+	border-radius: 15px;
+    left:50px
+}
+  .highlight {
+
+     box-shadow: 5px 5px 5px #888888;
+
+  }
+.ui-btn {
+    width: 200px !important;
+}
+  </style>
+
+  
+</head>
+<body>
+<div align="center" data-role="page" id="MyAbsences"> 
+	<div   data-role="header" data-position="fixed">
+		
+		<table width = "100%">
+			<TR height="70px">
+				<TD width = "30%" Valign="bottom" align="left"></td>
+
+				<TD width = "40%" valign="Top" align= "center"><h1 style="font-size: 150%"><B>MyAbsences</B></H1></TD>
+
+				<TD Valign="middle" align="right"><a style="font-size: 100%" href="javascript:window.location.href='Settings.htm'"   >
+				<i class="fa fa-cogs fa-2x pull-right fa-border"></i></a></TD>
+			</TR>
+		</table>		
+	
+	</div> 
+
+	<div  data-role="content">	
+		<table  id = "dataCount" align="center"> 
+			<TR><TD><div id="right1" align="center" class="block highlight" ><TABLE height="90%" width = "90%"><TR><TD align="left" valign = "center" width = "50%"><img src="images/Holiday.png"  height="70" width="70"></TD><TD  align="center" valign="center" width = "50%"><H1 id="Holiday"></H1></TD></TR></TABLE></div></TD>
+			<TD><div id="right2" align="center" class="block highlight"><TABLE height="90%" width = "90%"><TR><TD align="left" valign = "center" width = "50%"><img src="images/Sick.png"  height="70" width="70"></TD><TD  align="center" valign="center" width = "50%"><H1 id="Sick"></H1></TD></TR></TABLE></div></td></TR>
+			<TR><TD align ="center" colspan="2"><div id="right3" align="center" class="block highlight" ><TABLE height="90%" width = "90%"><TR><TD align="left" valign = "center" width = "50%"><img src="images/Lieu.png"  height="70" width="70"></TD><TD  align="center" valign="center" width = "50%"><H1 id="Lieu"></H1></TD></TR></TABLE></div></TD></TR>
+			
+			
+		</table>
+	</div>
+
+</div> 
+  <script>
+	var HolidayCnt=0;
+	var SickdayCnt=0;
+	var LieudayCnt=0;
+html5sql.openDatabase("com.PJO.MyAbsences","MyAbsences", 5*1024*1024);	
+html5sql.process(
+		["SELECT * FROM config ;"],
+		function(transaction, results, rowsArray){
+			if( rowsArray.length > 0) {
+						for (var n = 0; n < rowsArray.length; n++) {
+							item = rowsArray[n];
+							if (item.type=='HOLIDAY'){
+								
+						
+								localStorage.setItem('Holidays',item.value);
+								HolidayCnt=item.value;
+							}
+							if (item.type=='SICK'){
+								SickdayCnt=item.value;
+						
+								localStorage.setItem('Sickdays',item.value);
+
+							}
+						}
+				return(true);
+				}
+			createTables()
+			return(false);
+
+		},
+		 function(error, statement){
+			 createTables()
+			 return(false);
+		 }   
+	);
+setHomeCounts()
+
+function setHomeCounts()
+{
+
+	html5sql.process("SELECT sum(days) as totaldays FROM Absence where type = 'HOLIDAY'",
+	 function(transaction, results, rowsArray){
+
+			$( "#Holiday").html(HolidayCnt-rowsArray[0].totaldays)
+			$( "#Holiday").trigger('create');
+			html5sql.process("SELECT sum(days) as totaldays  from Absence where type = 'SICK'",
+			 function(transaction, results, rowsArray){
+					$( "#Sick").html(SickdayCnt-rowsArray[0].totaldays)
+					
+					html5sql.process("SELECT sum(days) as totaldays  FROM Absence where type = 'LIEU'  ",
+					 function(transaction, results, rowsArray){
+							$( "#Lieu").html(LieudayCnt+rowsArray[0].totaldays)
+							
+
+							
+	
+						
+					 },
+					 function(error, statement){
+
+					 }        
+					);
+				
+			 },
+			 function(error, statement){
+
+			 }        
+			);
+
+	$( "#dataCount").trigger('create');	
+	 },
+	 function(error, statement){
+
+	 }        
+	);
+}
+
+
+
+
+$("#right1").click(function () {
+
+$( this ).toggleClass( "highlight" );
+window.location.href='MyAbsencesList.htm?Type=HOLIDAY'
+});
+$("#right2").click(function () {
+
+$( this ).toggleClass( "highlight" );
+window.location.href="MyAbsencesList.htm?Type=SICK"
+
+});
+$("#right3").click(function () {
+
+$( this ).toggleClass( "highlight" );
+window.location.href="MyAbsencesList.htm?Type=LIEU"
+
+});
+
+
+</script>
+</body>
+
+
+</html>
+

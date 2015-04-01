@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>MyAbsence - Settings
+  </title>
+<script src="js/html5sql.js"></script>  
+<script src="js/MyDB.js"></script>
+
+  <script type='text/javascript' src='js/jquery-1.11.1.min.js'></script>
+  <script type='text/javascript' src='js/jquery.mobile-1.4.2.min.js'></script>
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+ <link href="css/font-awesome.min.css" rel="stylesheet">
+
+<script>
+html5sql.openDatabase("com.PJO.MyAbsences","MyAbsences", 5*1024*1024);
+</script>
+  <style type='text/css'>
+ .block {
+    border: 1px solid grey;
+    width: 95%;
+    
+    display: inline-block;
+    margin: 1em 1em 1em 1em;
+	border-radius: 15px;
+    left:50px
+}
+  .highlight {
+
+     box-shadow: 5px 5px 5px #888888;
+
+  }
+  .ui-btn-width {
+    width: 200px !important;
+}
+  </style>
+
+  
+</head>
+<body>
+<script>
+GetConfig();
+
+function SaveConfig()
+
+{
+
+	html5sql.process("UPDATE config set value = "+$( "#Holidays").val()+" Where type = 'HOLIDAY';",
+	 function(){
+		alert("ok1")
+		html5sql.process("UPDATE config set value = "+$( "#Sickdays").val()+" Where type = 'SICK';",
+			function(){
+alert("ok2")
+			},
+			function(error, statement){
+				alert("err1")
+			}        
+			)
+	 },
+	 function(error, statement){
+		alert("err2")
+	 }        
+	);
+}
+
+	
+function GetConfig(){
+
+	html5sql.process("SELECT * from Config ",
+	 function(transaction, results, rowsArray){
+			
+		for (var n = 0; n < rowsArray.length; n++) {
+			item = rowsArray[n];
+			if (item.type=='HOLIDAY'){
+				Holidays=item.value;
+		
+				localStorage.setItem('Holidays',item.value);
+				$( "#Holidays").val(item.value);
+			}
+			if (item.type=='SICK'){
+				Sickdays=item.value;
+		
+				localStorage.setItem('Sickdays',item.value);
+				$( "#Sickdays").val(item.value);
+			}
+		}
+		
+	 },
+	 function(error, statement){
+		
+	 }        
+	);
+
+}
+
+</script>
+
+
+
+
+<div align="center" data-role="page" id="JobsSettingsConfiguration"> 
+
+	<div  id="header" data-role="header" data-position="fixed">
+			<table width = "100%">
+			<TR height="50px">
+				<TD Valign="middle" align="left"><a style="font-size: 100%" href="javascript:window.location.href='MyAbsences.htm'"  >
+				<i class="fa fa-home fa-2x pull-left fa-border"></i></a></td>
+				
+				<TD width = "60%" valign="Top" align= "center"><h3 ><B>MyAbsences - Settings</B></H3></TD>
+			
+				<TD width = "20%" Valign="bottom" align="right"><a  href = "#"  onclick = "SaveConfig()" >
+				<i class="fa fa-save fa-2x pull-right fa-border"></i></a></a></TD>
+			</TR>
+		</table>
+	</div> 
+	<div  data-role="content">	
+		<div  align="center"> 
+			<div id="right1" align="center" class="block highlight">
+			
+				<Table width="90%">
+					<TR><TD width = "30%"><label >Total Holidays:</label></td>
+						<TD><input type="number" name="Holidays" id="Holidays" value=""  /></td></TR>
+					<TR><TD><label >Total Sick Days:</label></td>
+						<TD><input type="number" name="Sickdays" id="Sickdays" value=""  /></td></TR>
+					
+			
+					
+				</table>
+
+
+			</div>
+		</div>
+	</div>
+ 
+</div> 
+
+</body>
+
+
+</html>
+
