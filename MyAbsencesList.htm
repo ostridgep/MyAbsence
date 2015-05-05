@@ -135,11 +135,11 @@ border-radius: 15px;
 			<table   cellspacing="0"  style="border-spacing: 0;" class="tablesorter1">
 				<thead >
 					<tr>
-						<th  ></th>
-						<th >Start Date</th>
-						<th >End Date</th>
-						<th >Days</th>
-						<th >Used</th>
+						<th  width = "5%"></th>
+						<th width = "28%">Start Date</th>
+						<th width = "27%">End Date</th>
+						<th width = "20%">Days</th>
+						<th width = "20%">Used</th>
 
 					</tr>
 
@@ -236,7 +236,7 @@ function PopupClose(mode)
 {
 	PopupCloseType=mode;
 	if(mode=="SAVE"){
-		alert("into Save");
+		
 		createAbsence($('#StartDate').val(),$('#EndDate').val(),$('#Days').val(),$('#Description').val())
 		
 		}
@@ -251,11 +251,11 @@ function createAbsence(start,end,days,description)
 	html5sql.process("INSERT INTO Absence (start, end, type, days, used, description) VALUES ("+
 					 "'"+start+"',"+"'"+end+"',"+"'"+Type+"',"+"'"+days+"','','"+description+"');",
 	 function(){
-		 alert("Create Worked");
+		
 		 location.reload(false);
 	 },
 	 function(error, statement){
-		alert("Error: " + error.message + " when creating Absence processing " + statement);
+		
 		location.reload(false);
 	 }        
 	);
@@ -433,9 +433,6 @@ function SetTableSort()
 			},
 			4: {
 				sorter: "none"
-			},
-			5: {
-				sorter: "text"
 			}
 		},
 
