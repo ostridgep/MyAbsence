@@ -248,13 +248,13 @@ function PopupClose(mode)
 function createAbsence(start,end,days,description)
 {
 
-	html5sql.process("INSERT INTO Absence (start, end, type,days,used,description) VALUES ("+
+	html5sql.process("INSERT INTO Absence (start, end, type, days, used, description) VALUES ("+
 					 "'"+start+"',"+"'"+end+"',"+"'"+Type+"',"+"'"+days+"','','"+description+"');",
 	 function(){
-		 
+		 alert("Create Worked");
 	 },
 	 function(error, statement){
-		opMessage("Error: " + error.message + " when createNotification processing " + statement);
+		alert("Error: " + error.message + " when creating Absence processing " + statement);
 	 }        
 	);
 }
