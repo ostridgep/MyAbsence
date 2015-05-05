@@ -236,9 +236,9 @@ function PopupClose(mode)
 {
 	PopupCloseType=mode;
 	if(mode=="SAVE"){
-
+		alert("into Save");
 		createAbsence($('#StartDate').val(),$('#EndDate').val(),$('#Days').val(),$('#Description').val())
-		location.reload(false);
+		
 		}
 	
 
@@ -252,9 +252,11 @@ function createAbsence(start,end,days,description)
 					 "'"+start+"',"+"'"+end+"',"+"'"+Type+"',"+"'"+days+"','','"+description+"');",
 	 function(){
 		 alert("Create Worked");
+		 location.reload(false);
 	 },
 	 function(error, statement){
 		alert("Error: " + error.message + " when creating Absence processing " + statement);
+		location.reload(false);
 	 }        
 	);
 }
