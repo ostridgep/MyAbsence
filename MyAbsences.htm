@@ -122,7 +122,7 @@ function setHomeCounts()
 			 function(transaction, results, rowsArray){
 					$( "#Sick").html(SickdayCnt-rowsArray[0].totaldays)
 					
-					html5sql.process("SELECT sum(days) as totaldays  FROM Absence where type = 'LIEU'  ",
+					html5sql.process("SELECT sum(days) as totaldays  FROM Absence where type = 'LIEU'  and used not = 'Yes'",
 					 function(transaction, results, rowsArray){
 							$( "#Lieu").html(LieudayCnt+rowsArray[0].totaldays)
 							

@@ -110,7 +110,7 @@ function createTables() {
 function dropTables() { 
 
 
-		sqlstatement=	'DROP VIEW IF EXISTS Config;'+
+		sqlstatement=	'DROP table IF EXISTS Config;'+
 						'DROP TABLE IF EXISTS Absence;';
 
 						html5sql.process(sqlstatement,

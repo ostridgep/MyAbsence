@@ -135,12 +135,11 @@ border-radius: 15px;
 			<table   cellspacing="0"  style="border-spacing: 0;" class="tablesorter1">
 				<thead >
 					<tr>
-						<th width = "5%"></th>
-						<th width = "15%">Start Date</th>
-						<th width = "15%">End Date</th>
-						<th width = "10%">Days</th>
-						<th width = "10%">Used</th>
-						<th width = "45%">Description</th>
+						<th  ></th>
+						<th >Start Date</th>
+						<th >End Date</th>
+						<th >Days</th>
+						<th >Used</th>
 
 					</tr>
 
@@ -198,11 +197,11 @@ if(Type == 'HOLIDAY'){
 	}
 if(Type == 'SICK'){
 	$( "#title").html('<B>Sick Days</B>')
-	$( "#createtitle").html('<B>Create Dick Day</B>')
+	$( "#createtitle").html('<B>Create Sick Day</B>')
 	}
 if(Type == 'LIEU'){
 	$( "#title").html('<B>Lieu Days</B>')
-	$( "#createtitle").html('<B>Create Lieu</B>')
+	$( "#createtitle").html('<B>Create Lieu Day</B>')
 	}
 var DeleteClicked=false;
 var PopupCloseType="";
@@ -303,8 +302,8 @@ html5sql.process(SQLStatement,
 					HTMLToOutput+= '			<td>'+item['start']+'</td>';
 					HTMLToOutput+= '			<td>'+item['end']+'</td>';
 					HTMLToOutput+= '			<td>'+item['days']+'</td>';
-					HTMLToOutput+= '			<td>'+Taken+'</td>';
-					HTMLToOutput+= '			<td>'+item['description']+'</td>';;
+					HTMLToOutput+= '			<td>'+Taken+'</td></tr>';
+					HTMLToOutput+= '			<tr  class="'+Stripe+'" ><TD></td><td colspan ="4">'+item['description']+'</td>';
 					HTMLToOutput+= '			</tr>';
 	}
 //alert(HTMLToOutput)

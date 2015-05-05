@@ -94,7 +94,11 @@ function GetConfig(){
 	);
 
 }
-
+function initDB(){
+	emptyTables();
+	dropTables();
+	createTables();
+}
 </script>
 
 
@@ -124,7 +128,9 @@ function GetConfig(){
 						<TD><input type="number" name="Holidays" id="Holidays" value=""  /></td></TR>
 					<TR><TD><label >Total Sick Days:</label></td>
 						<TD><input type="number" name="Sickdays" id="Sickdays" value=""  /></td></TR>
-					
+					<TR></tr><tr><TD></TD><TD><a  href = "#"  onclick = "initDB()" >
+  <i class="fa fa-copy fa-border fa-2x"> Initialize Database</i></a>
+				</td></TR>					
 			
 					
 				</table>
