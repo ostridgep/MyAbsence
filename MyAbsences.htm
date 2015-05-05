@@ -18,7 +18,7 @@
   <style type='text/css'>
  .block {
     border: 1px solid grey;
-    width: 250px;
+    width: 150px;
     height:150px;
     display: inline-block;
     margin: 1em 1em 1em 1em;
@@ -56,9 +56,16 @@
 
 	<div  data-role="content">	
 		<table  id = "dataCount" align="center"> 
-			<TR><TD><div id="right1" align="center" class="block highlight" ><TABLE height="90%" width = "90%"><TR><TD align="left" valign = "center" width = "50%"><img src="images/Holiday.png"  height="70" width="70"></TD><TD  align="center" valign="center" width = "50%"><H1 id="Holiday"></H1></TD></TR></TABLE></div></TD>
-			<TD><div id="right2" align="center" class="block highlight"><TABLE height="90%" width = "90%"><TR><TD align="left" valign = "center" width = "50%"><img src="images/Sick.png"  height="70" width="70"></TD><TD  align="center" valign="center" width = "50%"><H1 id="Sick"></H1></TD></TR></TABLE></div></td></TR>
-			<TR><TD align ="center" colspan="2"><div id="right3" align="center" class="block highlight" ><TABLE height="90%" width = "90%"><TR><TD align="left" valign = "center" width = "50%"><img src="images/Lieu.png"  height="70" width="70"></TD><TD  align="center" valign="center" width = "50%"><H1 id="Lieu"></H1></TD></TR></TABLE></div></TD></TR>
+			<TR><TD><div id="right1" align="center" class="block highlight" >
+			<TABLE height="90%" width = "90%">
+			<TR><TD align="center" valign = "top" width = "50%"><img src="images/Holiday.png"  height="50" width="50"></TD></TR>
+			<TR><TD  align="center" valign="bottom" width = "50%"><H1 id="Holiday"></H1></TD></TR></TABLE></div></TD>
+			<TD><div id="right2" align="center" class="block highlight"><TABLE height="90%" width = "90%">
+			<TR><TD align="center" valign = "top" width = "50%"><img src="images/Sick.png"  height="50" width="50"></TD></TR>
+			<TR><TD  align="center" valign="bottom" width = "50%"><H1 id="Sick"></H1></TD></TR></TABLE></div></td></TR>
+			<TR><TD align ="center" colspan="2"><div id="right3" align="center" class="block highlight" ><TABLE height="90%" width = "90%">
+			<TR><TD align="center" valign = "top" width = "50%"><img src="images/Lieu.png"  height="50" width="50"></TD></TR>
+			<TR><TD  align="center" valign="bottom" width = "50%"><H1 id="Lieu"></H1></TD></TR></TABLE></div></TD></TR>
 			
 			
 		</table>
@@ -73,6 +80,7 @@ html5sql.openDatabase("com.PJO.MyAbsences","MyAbsences", 5*1024*1024);
 html5sql.process(
 		["SELECT * FROM config ;"],
 		function(transaction, results, rowsArray){
+			
 			if( rowsArray.length > 0) {
 						for (var n = 0; n < rowsArray.length; n++) {
 							item = rowsArray[n];
@@ -91,13 +99,13 @@ html5sql.process(
 						}
 				return(true);
 				}
-			createTables()
+			
 			return(false);
 
 		},
 		 function(error, statement){
 			 createTables()
-			 return(false);
+			  
 		 }   
 	);
 setHomeCounts()

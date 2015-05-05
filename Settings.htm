@@ -49,18 +49,18 @@ function SaveConfig()
 
 	html5sql.process("UPDATE config set value = "+$( "#Holidays").val()+" Where type = 'HOLIDAY';",
 	 function(){
-		alert("ok1")
+		
 		html5sql.process("UPDATE config set value = "+$( "#Sickdays").val()+" Where type = 'SICK';",
 			function(){
-alert("ok2")
+
 			},
 			function(error, statement){
-				alert("err1")
+				
 			}        
 			)
 	 },
 	 function(error, statement){
-		alert("err2")
+		
 	 }        
 	);
 }

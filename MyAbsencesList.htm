@@ -118,7 +118,7 @@ border-radius: 15px;
 				<TD Valign="middle" align="left"><a style="font-size: 100%" href="javascript:window.location.href='MyAbsences.htm'"  >
 				<i class="fa fa-home fa-2x pull-left fa-border"></i></a></td>
 				
-				<TD width = "60%" valign="Top" align= "center"><h3 ><B>MyAbsences - List</B></H3></TD>
+				<TD width = "60%" valign="Top" align= "center"><h3 ><B id ="title"></B></H3></TD>
 			
 				<TD width = "20%" Valign="bottom" align="right"><a  href = "#popupCreate"   class="open-popup-link" >
 				<i class="fa fa-plus fa-2x pull-right fa-border"></i></a></a></TD>
@@ -193,15 +193,15 @@ border-radius: 15px;
 
 <Script>
 if(Type == 'HOLIDAY'){
-	$( "#title").html('<B>Holiday List</B>')
+	$( "#title").html('<B>Holidays</B>')
 	$( "#createtitle").html('<B>Create Holiday</B>')
 	}
 if(Type == 'SICK'){
-	$( "#title").html('<B>Sick Days List</B>')
+	$( "#title").html('<B>Sick Days</B>')
 	$( "#createtitle").html('<B>Create Dick Day</B>')
 	}
 if(Type == 'LIEU'){
-	$( "#title").html('<B>Lieu Days List</B>')
+	$( "#title").html('<B>Lieu Days</B>')
 	$( "#createtitle").html('<B>Create Lieu</B>')
 	}
 var DeleteClicked=false;
@@ -214,6 +214,17 @@ BuildAbsenceList();
 function DeleteAbsence(id)
 {
 	html5sql.process("DELETE from Absence where id = '"+id+"'",
+	 function(transaction, results, rowsArray){
+			 location.reload();
+	 },
+	 function(error, statement){
+		
+	 }        
+	);
+}
+function UseAbsence(id)
+{
+	html5sql.process("Update Absence set used = 'Yes' where id = '"+id+"'",
 	 function(transaction, results, rowsArray){
 			 location.reload();
 	 },
@@ -280,14 +291,19 @@ html5sql.process(SQLStatement,
 						Stripe='stripe';
 						}
 					Delete="&nbsp;";	
-					Delete="<a href='#' onClick='DeleteAbsence("+item.id+")' ><img src='images\\delete.gif'  ></A>"
-
-					HTMLToOutput+= '	<tr style="font-size:12px" class="'+Stripe+'">';	
+					
+					Taken="Yes";
+					if (item['used']!="Yes"){
+						Taken="<a href='#' onClick='UseAbsence("+item.id+")' ><img src='images\\tick.gif' height='30' width='35' ></A>"
+						Delete="<a href='#' onClick='DeleteAbsence("+item.id+")' ><img src='images\\delete.gif' height='25' width='25' ></A>"
+					
+						}
+					HTMLToOutput+= '	<tr  class="'+Stripe+'">';	
 					HTMLToOutput+= '			<td >'+Delete+'</td>';
 					HTMLToOutput+= '			<td>'+item['start']+'</td>';
 					HTMLToOutput+= '			<td>'+item['end']+'</td>';
 					HTMLToOutput+= '			<td>'+item['days']+'</td>';
-					HTMLToOutput+= '			<td>'+item['used']+'</td>';
+					HTMLToOutput+= '			<td>'+Taken+'</td>';
 					HTMLToOutput+= '			<td>'+item['description']+'</td>';;
 					HTMLToOutput+= '			</tr>';
 	}
@@ -300,7 +316,7 @@ html5sql.process(SQLStatement,
 
 		},
 		 function(error, statement){
-			 createTables()
+			 
 			 return(false);
 		 }   
 	);
@@ -319,7 +335,7 @@ $('.open-popup-link').magnificPopup({
 //$("[data-role='footer']").hide();
     },
     close: function() {
-		alert(PopupCloseType);
+		
 	
 		if (PopupCloseType!="CANCEL"){
 	

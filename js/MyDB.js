@@ -10,94 +10,28 @@ return fdt;
 
 
 
-function opMessage(msg){
 
 
 
-	opLog(msg);
 
-
-}
-function prepLogMessage(msg){
-
-nowd=getDate();
-nowt=getTime();
-dtstamp=nowd+nowt;
-
-
-return('INSERT INTO LogFile (datestamp , type, message ) VALUES ("'+dtstamp+'","I","'+ msg+'")');
-
-}
-function opLog(msg){
-
-nowd=getDate();
-nowt=getTime();
-dtstamp=nowd+nowt;
-
-
-var sqlstatement='INSERT INTO LogFile (datestamp , type, message ) VALUES ("'+dtstamp+'","I","'+ msg+'");';
-	if (localStorage.Trace=='ON'){
-		html5sql.process(sqlstatement,
-						 function(){
-							 //alert("Success Creating Tables");
-						 },
-						 function(error, statement){
-							 window.console&&console.log("Error: " + error.message + " when processing " + statement);
-						 }        
-				);
-
-	}
-}
-
-function databaseExists(){
-
-	html5sql.process(
-		["SELECT * FROM sqlite_master WHERE type='table';"],
-		function(transaction, results, rowsArray){
-			if( rowsArray.length > 10) {
-				//alert("Database Existsh");
-				return(true);
-				}
-			//alert("Database does not exist")
-			return(false);
-
-		},
-		 function(error, statement){
-			 window.console&&console.log("Error: " + error.message + " when processing " + statement);
-			 return(false);
-		 }   
-	);
+function CreateConfigRecord(type,val){
 	
-}	
-
-function CreateUser(muser,vehiclereg, u, p, employeeid){
 	
-	opMessage("Creating User "+muser+":"+vehiclereg+":"+u+":"+p+":"+employeeid);
 
-	html5sql.process("INSERT INTO MyUserDets (mobileuser , vehiclereg, user, password ,employeeid) VALUES ('"+muser+"','" +vehiclereg+"','" +u+"','" +p+"','" + employeeid+"');",
+	html5sql.process("INSERT INTO Config (type , value) VALUES ('"+type+"',"  + val+");",
 	 function(){
-		//alert("User Created");
+		if (type=="SICK"){
+			
+			location.reload();
+		}
 	 },
 	 function(error, statement){
-		opMessage("Error: " + error.message + " when drop processing " + statement);
+	
 	 }        
 	);
 
 }
-function ChangeUserPW(muser, u, p){
 
-	opMessage("Changing Password for User "+muser);
-	html5sql.process("UPDATE MyUserDets set password = '"+p+"' Where user = '"+u+"';",
-	 function(){
-		 //alert("Success dropping Tables");
-	 },
-	 function(error, statement){
-		opMessage("Error: " + error.message + " when drop processing " + statement);
-	 }        
-	);
-
-
-}
 function getURLParameters(paramName) 
 {
         var sURL = window.document.URL.toString();  
@@ -129,68 +63,11 @@ function getURLParameters(paramName)
     }
 
 }
-function validateUser(u, p){
-var wait = true;
-var retVal= false;
-	opMessage("Changing Password for User "+u);
-	html5sql.process("SELECT * from MyUserDets where user = '"+u+"' and password =  '"+p+"'",
-	 function(transaction, results, rowsArray){
-			if( rowsArray.length > 0) {
-			retval = true;
-			wait = false;
-			//alert("hh")
-			}else{
-			wait = false;
-			}
-		
-	 },
-	 function(error, statement){
-		opMessage("Error: " + error.message + " when drop processing " + statement);
-		wait = false;
-	 }        
-	);
-while(wait == true){
-}
-return(retVal);
-
-}
-function validateUserExists(u,p){
-
-	opMessage("Checking for User "+u);
-	html5sql.process("SELECT * from MyUserDets where user = '"+u+"' ",
-	 function(transaction, results, rowsArray){
-			if( rowsArray.length < 1) {
-			return(2);
-			}else if (rowsArray[0].password!=p){
-			return(1);
-			}else {
-			return(0);
-			}
-		
-	 },
-	 function(error, statement){
-		opMessage("Error: " + error.message + " when drop processing " + statement);
-		return(2);
-	 }        
-	);
-return(2);
-
-}
 
 
-function createConfig(type,value)
-{
 
-	html5sql.process("INSERT INTO Config (type , value) VALUES ("+
-					 "'"+type+"',"+value+");",
-	 function(){
-		 
-	 },
-	 function(error, statement){
-		opMessage("Error: " + error.message + " when createNotification processing " + statement);
-	 }        
-	);
-}
+
+
 
 
 
@@ -210,8 +87,9 @@ function createTables() {
 					 'CREATE TABLE IF NOT EXISTS Absence		     	( id integer primary key autoincrement, type TEXT,  start TEXT, end TEXT, days INTEGER, used TEXT, description TEXT);';
 		html5sql.process(sqlstatement,
 						 function(){
+							CreateConfigRecord("HOLIDAY",0);
+							CreateConfigRecord("SICK",0);
 							
-							emptyTables();
 							
 							
 						 },
