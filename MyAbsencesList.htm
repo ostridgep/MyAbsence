@@ -134,12 +134,12 @@ border-radius: 15px;
 		<DIV>
 			<table   cellspacing="0"  style="border-spacing: 0;" class="tablesorter1">
 				<thead >
-					<tr>
-						<th  width = "5%"></th>
+					<tr class="font-size: small">
+						<th width = "5%"></th>
 						<th width = "33%">Start Date</th>
 						<th width = "32%">End Date</th>
-						<th width = "15%">Day</th>
-						<th width = "15%">Use</th>
+						<th width = "15%">Days</th>
+						<th width = "15%">Used</th>
 
 					</tr>
 
@@ -299,7 +299,7 @@ html5sql.process(SQLStatement,
 						Delete="<a href='#' onClick='DeleteAbsence("+item.id+")' ><img src='images\\delete.gif' height='25' width='25' ></A>"
 					
 						}
-					HTMLToOutput+= '	<tr  class="'+Stripe+'">';	
+					HTMLToOutput+= '	<tr  class="'+Stripe+' font-size: small">';	
 					HTMLToOutput+= '			<td >'+Delete+'</td>';
 					HTMLToOutput+= '			<td>'+item['start']+'</td>';
 					HTMLToOutput+= '			<td>'+item['end']+'</td>';
