@@ -282,7 +282,7 @@ var Delete=""
 var Stripe="";
 var HTMLToOutput="";
 var SQLStatement="";
-SQLStatement="SELECT * From Absence where type = '"+Type+"'"
+SQLStatement="SELECT * From Absence where type = '"+Type+"' order by start"
 html5sql.process(SQLStatement,
 		function(transaction, results, rowsArray){
 				for (var n = 0; n < rowsArray.length; n++) {
